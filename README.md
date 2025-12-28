@@ -8,19 +8,6 @@ A complete system to scrape, enhance, and display blog articles using Node.js, E
 - **script/**: Node.js automation script to fetch articles, search for references, and update content using AI.
 - **frontend/**: React application to display original and updated articles in a premium UI.
 
-## Architecture
-
-```mermaid
-graph TD
-    A[Scraper (Node.js)] -->|Scrapes| B(BeyondChats Blog)
-    A -->|Saves| C[(SQLite DB)]
-    D[Backend API (Express)] -->|Reads/Writes| C
-    E[Automation Script] -->|Fetches| D
-    E -->|Search & Scrape| F(Google/DuckDuckGo)
-    E -->|Generate| G(LLM)
-    E -->|Updates| D
-    H[Frontend (React)] -->|Fetches| D
-```
 
 ## Setup Instructions
 
@@ -41,7 +28,6 @@ To run the AI enhancement process:
 ```bash
 cd script
 npm install
-# Optional: Create .env and add GEMINI_API_KEY=your_key
 node index.js
 ```
 
