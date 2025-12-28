@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 require('dotenv').config();
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = process.env.API_URL || 'http://localhost:3000/api';
 
 async function main() {
     try {
