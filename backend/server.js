@@ -17,6 +17,8 @@ sequelize.sync().then(() => {
     console.error('Database sync failed:', err);
 });
 
+const { enhanceArticle } = require('./services/aiService');
+
 // Routes
 app.get('/', (req, res) => {
     res.send('Backend is running. SQLite storage: ' + (process.env.VERCEL ? '/tmp' : 'local'));
@@ -33,7 +35,7 @@ app.get('/api/scrape', async (req, res) => {
 
 app.get('/api/articles', async (req, res) => {
     try {
-        const articles = await Article.findAll({ order: [['published_date', 'ASC']] });
+        const articles = await Article.findAll({ order: [['published_date', 'DESC']] }); // Changed to DESC for latest first
         res.json(articles);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -44,6 +46,35 @@ app.get('/api/articles/:id', async (req, res) => {
     try {
         const article = await Article.findByPk(req.params.id);
         if (!article) return res.status(404).json({ error: 'Article not found' });
+        res.json(article);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/articles/:id/enhance', async (req, res) => {
+    try {
+        const article = await Article.findByPk(req.params.id);
+        if (!article) return res.status(404).json({ error: 'Article not found' });
+
+        const updates = await enhanceArticle(article);
+        await article.update(updates);
+        res.json(article);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.post('/api/articles/:id/reset', async (req, res) => {
+    try {
+        const article = await Article.findByPk(req.params.id);
+        if (!article) return res.status(404).json({ error: 'Article not found' });
+
+        await article.update({
+            is_updated: false,
+            updated_content: null,
+            reference_links: null
+        });
         res.json(article);
     } catch (error) {
         res.status(500).json({ error: error.message });
