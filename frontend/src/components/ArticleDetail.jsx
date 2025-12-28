@@ -7,7 +7,8 @@ const ArticleDetail = () => {
     const [article, setArticle] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/articles/${id}`)
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+        axios.get(`${apiUrl}/articles/${id}`)
             .then(res => setArticle(res.data))
             .catch(err => console.error(err));
     }, [id]);

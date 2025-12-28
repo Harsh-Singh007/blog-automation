@@ -12,7 +12,8 @@ const ArticleList = () => {
 
     const fetchArticles = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/articles');
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+            const res = await axios.get(`${apiUrl}/articles`);
             setArticles(res.data);
             setLoading(false);
         } catch (error) {
@@ -27,7 +28,11 @@ const ArticleList = () => {
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                 <h1>Latest Articles</h1>
-                <button className="btn" onClick={() => { setLoading(true); axios.get('http://localhost:3000/api/scrape').then(fetchArticles); }}>
+                <button className="btn" onClick={() => {
+                    setLoading(true);
+                    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+                    axios.get(`${apiUrl}/scrape`).then(fetchArticles);
+                }}>
                     Trigger Scrape
                 </button>
             </div>
