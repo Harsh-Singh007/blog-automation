@@ -13,9 +13,15 @@ app.use(express.json());
 // Sync DB
 sequelize.sync().then(() => {
     console.log('Database synced');
+}).catch(err => {
+    console.error('Database sync failed:', err);
 });
 
 // Routes
+app.get('/', (req, res) => {
+    res.send('Backend is running. SQLite storage: ' + (process.env.VERCEL ? '/tmp' : 'local'));
+});
+
 app.get('/api/scrape', async (req, res) => {
     try {
         const articles = await scrapeOldestArticles();
