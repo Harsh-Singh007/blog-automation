@@ -12,7 +12,7 @@ AI Enhancement: Updates articles with new information and citations.
 Premium UI: Custom CSS design with glassmorphism effects and responsive layout.
 Robust Architecture: Modular design separating concerns between data fetching, processing, and presentation.
 How to Run
-1. Backend
+# 1. Backend
 
 bash
 cd backend
@@ -20,14 +20,14 @@ npm install
 node server.js
 Server runs on http://localhost:3000
 
-2. Automation Script
+# 2. Automation Script
 
 bash
 cd script
 npm install
-# Optional: Create .env with GEMINI_API_KEY=your_key for real AI
 node index.js
-3. Frontend
+
+# 3. Frontend
 
 bash
 cd frontend
